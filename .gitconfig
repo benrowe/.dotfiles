@@ -1,0 +1,63 @@
+[user]
+        name = 
+        email = 
+
+[alias]
+  ls = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+  search = "!f() { git log -p -S \"$1\" -- \"${2:-.}\"; }; f"
+  filelog = log -u
+  fl = log -u
+  a = add
+  ap = add -p
+  cm = commit -m
+  ca = commit --amend
+
+  cp = cherry-pick
+
+  f = fetch
+  p = push
+
+  d = diff
+  ds = diff --stat
+  dc = diff --cached
+  dd = diff develop..HEAD --name-status
+
+  stat = shortlog -s -n --all --no-merges
+
+  s = status -s -uall
+  co = checkout
+  cob = checkout -b
+  cop = checkout -p
+
+  stl = stash list
+
+  del = branch -D
+
+  b = "!git for-each-ref --sort='-authordate' --format='%(authordate)%09%(objectname:short)%09%(refname)' refs/heads | sed -e 's-refs/heads/--'"
+  ba = "!git for-each-ref --format='%(authordate)%09%(objectname:short)%09%(refname)' refs | grep -i 'heads\\|remotes' | sed -e 's-refs/heads/--' | sed -e 's-refs/remotes/--'"
+
+  # track = "![[ $(git branch --list -vv $(git symbolic-ref --short HEAD) | grep -i '(^\\[)') = '' ]] && git push -u origin $(git symbolic-ref --short HEAD) || git push"
+  track = "!git push -u origin $(git symbolic-ref --short HEAD)"
+  undo-commit = reset --soft HEAD~1
+
+  ahead = "!git rev-list --left-right --count origin/develop...HEAD | awk '{print \"behind: \"$1, \"ahead: \"$2}'"
+
+  # show aliases
+  la = "!git config -l | grep alias | cut -c 7-"
+
+  tidy = "!git remote prune origin && git branch --merged > /tmp/merged-branches && sed -E '/(develop|master)/d' /tmp/merged-branches > /tmp/clean-branches && vi /tmp/clean-branches && xargs git branch -d </tmp/clean-branches"
+
+  rbod = rebase origin/develop
+  rbom = rebase origin/master
+
+[url "ssh://git@github.com/"]
+  insteadOf = https://github.com/
+[push]
+        default = current
+[pull]
+        ff = only
+[init]
+	defaultBranch = master
+[rebase]
+        autoStash = true
